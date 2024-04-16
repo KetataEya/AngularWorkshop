@@ -1,0 +1,50 @@
+<p>residences works!</p>
+<table class="table" border="1">
+    <tr>
+        <th>id</th>
+        <th>image</th>
+        <th>name</th>
+        <th>address</th>
+    </tr>
+    <tr *ngFor="let p of listResidences; let i=index">
+        <td>{{p.id}}</td> 
+        <td>{{p.image}}</td>
+        <td>{{p.name}}</td>
+        <td>{{p.address}}</td>
+        <a [routerLink]="['/apartments', p.id]">Détails</a>
+
+        <td>
+          <button class="btn btn-primary" (click)="showApartments(p)">Show</button>
+        </td>
+    </tr>
+</table>
+
+<div>
+    <input type="number" [(ngModel)]="surface" placeholder="Search by surface" (input)="filterApartmentsBySurface()">
+    </div>
+
+<h2 *ngIf="selectedResidence">Appartements de {{ selectedResidence.name }}</h2>
+<div *ngIf="apartmentsToShow.length > 0; else noApartments">
+  <div *ngFor="let apartment of apartmentsToShow">
+    <p>Description: {{ apartment.description }}</p>
+    <p>Apartment Number: {{ apartment.appartNum }}</p>
+    <p>Floor Number: {{ apartment.floorNum }}</p>
+    <p>Surface: {{ apartment.surface }}</p>
+    <p>Terrace: {{ apartment.terrace }}</p>
+    <p>Surface Terrace: {{ apartment.surfaceTerrace }}</p>
+    <p>Category: {{ apartment.category }}</p>
+    <button class="like-button" (click)="addToFavorites(apartment)">
+      <span class="heart-icon">&hearts;</span> Like
+    </button>
+  </div>
+</div>
+<ng-template #noApartments>
+  <p>No Apartment found</p>
+</ng-template>
+
+<h2>Favorites</h2>
+<ul>
+  <li *ngFor="let favorite of favoritesList">
+    <strong>{{ favorite.residence.name }}</strong> - {{ favorite.description }}
+  </li>
+</ul>
